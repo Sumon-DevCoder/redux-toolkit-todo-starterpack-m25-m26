@@ -1,20 +1,40 @@
+import { useGetTodosQuery } from "@/redux/api/api";
 import AddTodoModal from "./AddTodoModal";
 import TodoCard from "./TodoCard";
-import { Button } from "@/components/ui/button";
+import TodoFilter from "./TodoFilter";
+import { TTodo } from "@/redux/features/todoSlice";
 
-const todoContainer = () => {
+const TodoContainer = () => {
+  // local state
+  // const { todos } = useAppSelector((state) => state.todo);
+
+  // from server
+  const { data: todos, isError, isLoading } = useGetTodosQuery(undefined);
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
+  if (isError) {
+    return <p>{isError}</p>;
+  }
+
   return (
     <div>
       <div className="flex justify-between mb-5">
-        <Button>Add Todo</Button>
         <AddTodoModal />
-        <Button>Filter</Button>
+        <TodoFilter />
       </div>
       <div className="bg-primary-gradient w-full h-full rounded-lg p-1 ">
         <div className="bg-white p-5 w-full h-full space-y-2 ">
-          <TodoCard />
-          <TodoCard />
-          <TodoCard />
+          {todos?.data?.map((item: TTodo) => (
+            <TodoCard
+              id={item.id}
+              title={item.title}
+              description={item.description}
+              isCompleted={item.isCompleted}
+            />
+          ))}
         </div>
         <div>
           <h2 className="bg-white p-2 rounded-lg flex font-semibold items-center justify-center">
@@ -26,4 +46,4 @@ const todoContainer = () => {
   );
 };
 
-export default todoContainer;
+export default TodoContainer;

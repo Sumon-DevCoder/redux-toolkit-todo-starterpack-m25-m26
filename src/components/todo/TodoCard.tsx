@@ -1,12 +1,36 @@
-const TodoCard = () => {
+import { removeTodo, toggleComplete } from "@/redux/features/todoSlice";
+import { useAppDispatch } from "@/redux/hook";
+
+type TTodoCardProps = {
+  id: string;
+  title: string;
+  description: string;
+  isCompleted?: boolean;
+};
+
+const TodoCard = ({ id, title, description, isCompleted }: TTodoCardProps) => {
+  const dispatch = useAppDispatch();
+
+  const handleToogle = () => {
+    dispatch(toggleComplete(id));
+  };
+
   return (
     <div className="bg-white rounded-lg flex justify-between items-center">
-      <input type="checkbox" name="" id="" />
-      <p>Todo Title</p>
-      <p>Time</p>
-      <p>Description</p>
+      <input
+        onChange={handleToogle}
+        type="checkbox"
+        name="complete"
+        id="complete"
+      />
+      <p>{title}</p>
+      <p>{isCompleted ? "done" : "pending"}</p>
+      <p>{description}</p>
       <div className="space-x-3 ">
-        <button className="bg-blue-400 p-1 rounded-md text-sm">
+        <button
+          onClick={() => dispatch(removeTodo(id))}
+          className="bg-red-400 p-1 rounded-md text-sm"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -28,12 +52,12 @@ const TodoCard = () => {
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
-            stroke-width="1.5"
+            strokeWidth="1.5"
             stroke="currentColor"
           >
             <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
             />
           </svg>
