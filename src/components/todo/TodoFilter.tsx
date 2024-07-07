@@ -8,11 +8,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@radix-ui/react-dropdown-menu";
-import { useState } from "react";
 
-const TodoFilter = () => {
-  const [position, setPosition] = useState("bottom");
+type TTodoFilterPriorityProps = {
+  priority: string;
+  setPriority: (value: string) => void;
+};
 
+const TodoFilter = ({ priority, setPriority }: TTodoFilterPriorityProps) => {
   return (
     <div>
       <DropdownMenu>
@@ -22,10 +24,10 @@ const TodoFilter = () => {
         <DropdownMenuContent className="w-56 bg-slate-400 p-4 hover:cursor-pointer">
           <DropdownMenuLabel>Filter By Prioriy</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
-            <DropdownMenuRadioItem value="top">Hight</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="bottom">Medium</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="right">Low</DropdownMenuRadioItem>
+          <DropdownMenuRadioGroup value={priority} onValueChange={setPriority}>
+            <DropdownMenuRadioItem value="high">High</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="medium">Medium</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="low">Low</DropdownMenuRadioItem>
           </DropdownMenuRadioGroup>
         </DropdownMenuContent>
       </DropdownMenu>
